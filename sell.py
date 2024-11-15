@@ -118,10 +118,19 @@ async def sell_token(mint: Pubkey, bonding_curve: Pubkey, associated_bonding_cur
                 transaction.add(sell_ix)
                 transaction.recent_blockhash = recent_blockhash.value.blockhash
 
+                # Sign the transaction with the payer's keypair
+                transaction.sign(payer)
+
+                # Serialize the transaction before sending
+                serialized_tx = transaction.serialize()
+
                 tx = await client.send_transaction(
-                    transaction,
-                    payer,
-                    opts=TxOpts(skip_preflight=True, preflight_commitment=Confirmed),
+                    serialized_tx,
+                    opts=TxOpts(
+                        skip_preflight=True,
+                        preflight_commitment=Confirmed,
+                        max_retries=5  # RPC 重试次数
+                    ),
                 )
 
                 print(f"Transaction sent: https://explorer.solana.com/tx/{tx.value}")
