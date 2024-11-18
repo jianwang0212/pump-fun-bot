@@ -56,14 +56,14 @@ async def _trade(websocket, match_string=None, bro_address=None, marry_mode=Fals
         print("Waiting for a new token creation...")
         # token_data = await listen_for_create_transaction(websocket)
         token_data = {
-            "name": "Trump ally",
-            "symbol": "Alina", 
-            "uri": "https://ipfs.io/ipfs/QmeUYq44D5QtfZjD3mKftX9m5KXvmM4rKAWiPLetjTykTM",
-            "mint": "z7mhbZMZahmuVcXR2RuPQWwTTMD3oGcnjuPuVfXpump",
-            "bondingCurve": "Gf5zcEjVuwmE2o4qRDEpHspw7NWxmFoohJ9oBogXkogK",
-            "associatedBondingCurve": "GxYkwPMCw63jUDSMh5qw1Mz946Gpcosd8o965tkQQjay",
-            "user": "2T5att11MYcogPx3wjWKBheYb5FtmgnVYRnCo83dUjo2"
-        }
+                        "name": "wohoo",
+                        "symbol": "wohoo",
+                        "uri": "https://ipfs.io/ipfs/QmT5NBQWrjA8hSvtdeXM74DtNdzsAmHfDqSYcgEUXTazKd",
+                        "mint": "3yAdHtHpSaQXz1Y7jdkmDV9tUJyYRGfQhjqtM4Papump",
+                        "bondingCurve": "DfT6jS3HjXSUfWKsU7AZvq2osKWZuQT4UPpaFydezfJt",
+                        "associatedBondingCurve": "91i56Sw5P6Gjx48vEW81TysR694yptyuBQgt62Pt44dg",
+                        "user": "5KmkcCELq5uZkEUqEKfc8FLnsSRWF7wFywzNtXhjmDRW"
+                        }
         print("New token created:")
         print(json.dumps(token_data, indent=2))
 
@@ -87,10 +87,10 @@ async def _trade(websocket, match_string=None, bro_address=None, marry_mode=Fals
             file.write(json.dumps(token_data, indent=2))
         print(f"Token information saved to {file_name}")
 
-        # print("Waiting for 15 seconds for things to stabilize...")
-        # await asyncio.sleep(15)
-        print("Waiting for 5 seconds for things to stabilize...")
-        await asyncio.sleep(5)
+        print("Waiting for 15 seconds for things to stabilize...")
+        await asyncio.sleep(15)
+        # print("Waiting for 5 seconds for things to stabilize...")
+        # await asyncio.sleep(5)
 
         mint = Pubkey.from_string(token_data['mint'])
         bonding_curve = Pubkey.from_string(token_data['bondingCurve'])

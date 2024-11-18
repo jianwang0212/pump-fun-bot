@@ -95,14 +95,14 @@ async def wait_for_transaction_confirmation(client, signature, max_retries=10):
             print(f"Checking signature: {signature}")
             
             # 获取交易状态
-            status = await client.get_transaction(
-                Signature.from_string(signature),
-                commitment="confirmed"
-            )
             # status = await client.get_transaction(
-            #     signature,
+            #     Signature.from_string(signature),
             #     commitment="confirmed"
             # )
+            status = await client.get_transaction(
+                signature,
+                commitment="confirmed"
+            )
             
             print(f"Got transaction status response: {status}")
             
@@ -255,26 +255,26 @@ async def buy_token(mint: Pubkey, bonding_curve: Pubkey, associated_bonding_curv
                 # Serialize the transaction before sending
                 serialized_tx = transaction.serialize()
 
-                # tx = await client.send_transaction(
-                #     serialized_tx,
-                #     opts=TxOpts(
-                #         skip_preflight=True,
-                #         preflight_commitment=Confirmed,
-                #         max_retries=5  # RPC 重试次数
-                #     ),
-                # )
+                tx = await client.send_transaction(
+                    serialized_tx,
+                    opts=TxOpts(
+                        skip_preflight=True,
+                        preflight_commitment=Confirmed,
+                        max_retries=5  # RPC 重试次数
+                    ),
+                )
 
-                # print(f"Transaction sent: https://explorer.solana.com/tx/{tx.value}")
+                print(f"Transaction sent: https://explorer.solana.com/tx/{tx.value}")
                
-                zi_tx_value = "4rHgFjwvg4Xsgvvd9Z6LovZHn66ybt3FcRMXYafrAtBVvQYVAo9ueYdydYa8ws73598NuCeVJEFo8Rz4wZqAKZAU"
-                print(f"Transaction sent: https://explorer.solana.com/tx/{zi_tx_value}")
+                # zi_tx_value = "4rHgFjwvg4Xsgvvd9Z6LovZHn66ybt3FcRMXYafrAtBVvQYVAo9ueYdydYa8ws73598NuCeVJEFo8Rz4wZqAKZAU"
+                # print(f"Transaction sent: https://explorer.solana.com/tx/{zi_tx_value}")
                 # 等待确认
-                # confirmed = await wait_for_transaction_confirmation(client, tx.value)
-                confirmed = await wait_for_transaction_confirmation(client, zi_tx_value)
+                confirmed = await wait_for_transaction_confirmation(client, tx.value)
+                # confirmed = await wait_for_transaction_confirmation(client, zi_tx_value)
                 if confirmed:
                     print("Buy transaction completed successfully!")
-                    # return tx.value
-                    return zi_tx_value
+                    return tx.value
+                    # return zi_tx_value
                 else:
                     raise Exception("Transaction failed to confirm")
 
